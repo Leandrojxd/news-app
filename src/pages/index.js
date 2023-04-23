@@ -9,6 +9,7 @@ export default function Home() {
       setUser(users);
       setError(null);
     }catch(error){
+      console.log(error)
       setError('Error fetching users.')
     }
   };
