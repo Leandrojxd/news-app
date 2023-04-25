@@ -1,4 +1,4 @@
-import "@/styles/globals.css";
+
 import Head from "next/head";
 //algo que envuelve a toda nuestra aplicacion
 export default function App({ Component, pageProps }) {
