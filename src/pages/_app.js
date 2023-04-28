@@ -1,15 +1,18 @@
+import "../styles/globals.css";
+import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { SessionContextProvider } from "@supabase/auth-helpers-react";
+import { useState } from "react";
 
-import Head from "next/head";
-//algo que envuelve a toda nuestra aplicacion
-export default function App({ Component, pageProps }) {
+function MyApp({ Component, pageProps }) {
+  const [supabase] = useState(() => createBrowserSupabaseClient());
+
   return (
-    <>
-      <Head>
-        <title>NewsApp</title>
-        <meta name="description" content="newsapp - this is an example of next js newapp" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <SessionContextProvider
+      supabaseClient={supabase}
+      initialSession={pageProps.initialSession}
+    >
       <Component {...pageProps} />
-    </>
+    </SessionContextProvider>
   );
 }
+export default MyApp;

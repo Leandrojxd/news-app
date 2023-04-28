@@ -1,44 +1,28 @@
-import { useState } from "react";
-export default function Home() {
-  //AQUI SE GUARDA LA DATA Y EL ERROR
-  const [user, setUser] = useState([]);
-  const [error, setError] = useState(null);
-  const [Name, setName] = useState('');
-  console.log(Name)
-  const handleClick = async () => {
-    try{
-      const response = await fetch('/api/hello');
-      const { users } = await response.json();
-      setUser(users);
-      setError(null);
-    }catch(error){
-      console.log(error)
-      setError('Error fetching users.')
-    }
-  };
-  const api_Post = async (event) => {
-    event.preventDefault();
-    const response = await fetch('/api/hello', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ Name })
-    });
-    const data = await response.json();
-    console.log(data);
-  };  
-  
+import { Auth } from '@supabase/auth-ui-react'
+import { ThemeSupa } from '@supabase/auth-ui-shared'
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
+
+const Home = () => {
+  const session = useSession()
+  const supabase = useSupabaseClient()
 
   return (
-    <div>
-      <button onClick={handleClick}>Obtener nombre de Usuarios</button>
-      <p>Nombre de la tabla: {user.map((eachUser) => (eachUser.Name))}</p>
-      <label>
-        Nombre:
-        <input type="text" name="name" value = {Name} onChange = {(name) => setName(name.target.value)}/>
-      </label>
-      <button onClick={api_Post}>Enviar nombre</button>
+    <div className="container" style={{ padding: '50px 0 100px 0' }}>
+      {!session ? (
+        <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} theme="dark" />
+      ) : (
+        <p>Account page will go here.</p>
+      )}
     </div>
-  );
+  )
 }
+
+export default Home
+
+// const [formState, setFormState] = useState({
+//   name: '',
+//   description: '',
+//   price: '',
+//   currency_type: '',
+//   image: '',
+// });
