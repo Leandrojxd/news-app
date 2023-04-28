@@ -8,6 +8,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <SessionContextProvider
+      provider={"google"}
       supabaseClient={supabase}
       initialSession={pageProps.initialSession}
     >
